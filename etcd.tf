@@ -1,8 +1,7 @@
-resource "yandex_compute_instance" "db" {
+resource "yandex_compute_instance" "etcd" {
 
-  count    = 3
-  name     = "db${count.index}"
-  hostname = "db${count.index}"
+  name     = "etcd"
+  hostname = "etcd"
 
   resources {
     cores  = 2
