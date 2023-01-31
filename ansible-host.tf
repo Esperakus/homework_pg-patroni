@@ -73,5 +73,7 @@ resource "yandex_compute_instance" "ansible" {
 
   depends_on = [
     yandex_compute_instance.etcd,
+    yandex_compute_instance.db,
+    yandex_compute_instance.haproxy,
   ]
 }

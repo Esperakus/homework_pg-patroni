@@ -1,4 +1,4 @@
-[etcd]
+[etcd_host]
 %{ for hostname in etcd ~}
 ${hostname}
 %{ endfor ~}
@@ -8,7 +8,7 @@ ${hostname}
 ${hostname}
 %{ endfor ~}
 
-[haproxy]
+[haproxy_host]
 %{ for hostname in haproxy ~}
 ${hostname}
 %{ endfor ~}
