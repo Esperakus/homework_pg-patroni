@@ -6,8 +6,6 @@ After=network.target
 [Service]
 User=etcd
 Type=notify
-Environment=ETCD_DATA_DIR=/var/lib/etcd
-Environment=ETCD_NAME=%m
 ExecStart=/usr/local/bin/etcd --config-file /etc/etcd/etcd.conf.yaml
 Restart=always
 RestartSec=10s
