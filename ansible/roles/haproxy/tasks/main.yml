@@ -11,7 +11,7 @@
 
 - name: copy haproxy config
   copy:
-    src: ../files/haproxy.cfg 
+    src: files/haproxy.cfg 
     dest: /etc/haproxy/haproxy.cfg
 
 - name: haproxy home
@@ -29,7 +29,7 @@
 
 - name: rsyslog haproxy config
   copy:
-    src: ../files/99-haproxy.conf
+    src: files/99-haproxy.conf
     dest: /etc/rsyslog.d/99-haproxy.conf
   notify: restart rsyslog
 

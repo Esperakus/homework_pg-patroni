@@ -4,7 +4,10 @@
   roles:
     - { role: general-el8, become: true }
     
+- hosts: etcd
+  roles:
+    - { role: etcd, become: true }
+
 - hosts: db_hosts
   roles:
     - { role: postgresql, become: true }
-

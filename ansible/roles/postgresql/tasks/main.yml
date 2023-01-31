@@ -12,12 +12,9 @@
 
   - name: install psycopg2
     dnf:
-      name: "{{ packages }}"
+      name: python3-psycopg2
       state: present
-    vars:
-      packages:
-        - python3-psycopg2
-
+    
   - name: install pgsql13
     dnf:
       name: postgresql13-server

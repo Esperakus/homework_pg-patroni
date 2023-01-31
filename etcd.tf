@@ -4,8 +4,9 @@ resource "yandex_compute_instance" "etcd" {
   hostname = "etcd"
 
   resources {
-    cores  = 2
-    memory = 2
+    cores         = 2
+    memory        = 2
+    core_fraction = 20
   }
 
   boot_disk {
