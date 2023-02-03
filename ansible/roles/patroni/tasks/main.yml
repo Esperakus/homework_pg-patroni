@@ -1,2 +1,40 @@
 ---
 # tasks file for patroni
+
+- name: patroni
+  dnf:
+    name:
+      - patroni-etcd
+    state: present
+    update_cache: true
+
+    
+# - name: install patroni
+#   pip:
+#     name:
+#       - testresources
+#       - setuptools
+#       - patroni
+#       - psycopg2
+#       - python-etcd
+#     state: present
+    
+- name: create patroni data folder
+  file:
+    name: /data/patroni
+    state: directory
+    owner: postgres
+    group: postgres
+    mode: 700
+
+- name: patroni config
+  template:
+    src: patroni.yml
+    dest: /etc/patroni.yml
+
+- name: patroni unit file
+  template:
+    src: patroni.service
+    dest: /etc/systemd/system/patroni.service
+  notify: patroni restart
+

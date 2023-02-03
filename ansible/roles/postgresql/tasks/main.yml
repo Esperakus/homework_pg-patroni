@@ -63,10 +63,3 @@
     postgresql_db:
       name: test
       owner: test
-
-#  - name: firewall add pgsql service
-#    firewalld:
-#      service: postgresql
-#      permanent: yes
-#      state: enabled
-#      immediate: yes

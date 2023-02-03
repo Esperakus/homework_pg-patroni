@@ -11,3 +11,4 @@
 - hosts: db_hosts
   roles:
     - { role: postgresql, become: true }
+    - { role: patroni, become: true }

@@ -60,6 +60,7 @@
       - iotop
       - glibc-langpack-ru
       - python3-pip
+      - gcc
       state: present
      
   - name: stop selinux
