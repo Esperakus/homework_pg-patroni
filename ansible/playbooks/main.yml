@@ -3,6 +3,10 @@
 - hosts: all
   roles:
     - { role: general-el8, become: true }
+
+- hosts: haproxy_host
+  roles:
+    - { role: haproxy, become: true }
     
 - hosts: etcd_host
   roles:
