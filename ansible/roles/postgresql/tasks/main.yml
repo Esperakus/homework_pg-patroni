@@ -29,37 +29,37 @@
     command:  /usr/pgsql-13/bin/postgresql-13-setup initdb
     when: not pgdata.stat.exists
 
-  - name: copy config
-    copy:
-      src: ../files/postgresql.conf
-      dest: /var/lib/pgsql/13/data/postgresql.conf
-      owner: postgres
-      group: postgres
+  # - name: copy config
+  #   copy:
+  #     src: ../files/postgresql.conf
+  #     dest: /var/lib/pgsql/13/data/postgresql.conf
+  #     owner: postgres
+  #     group: postgres
 
-  - name: copy pg_hba
-    copy:
-      src: ../files/pg_hba.conf
-      dest: /var/lib/pgsql/13/data/pg_hba.conf
-      owner: postgres
-      group: postgres
+  # - name: copy pg_hba
+  #   copy:
+  #     src: ../files/pg_hba.conf
+  #     dest: /var/lib/pgsql/13/data/pg_hba.conf
+  #     owner: postgres
+  #     group: postgres
 
-  - name: pgsql service start
-    service:
-      name: postgresql-13
-      state: started
-      enabled: yes
+  # - name: pgsql service start
+  #   service:
+  #     name: postgresql-13
+  #     state: started
+  #     enabled: true
 
-  - name: create pgsql user
-    become: true
-    become_user: postgres
-    postgresql_user:
-      name: test
-      password: test
-      state: present
+  # - name: create pgsql user
+  #   become: true
+  #   become_user: postgres
+  #   postgresql_user:
+  #     name: test
+  #     password: test
+  #     state: present
 
-  - name: Create a new database with name "test"
-    become: true
-    become_user: postgres
-    postgresql_db:
-      name: test
-      owner: test
+  # - name: Create a new database with name "test"
+  #   become: true
+  #   become_user: postgres
+  #   postgresql_db:
+  #     name: test
+  #     owner: test

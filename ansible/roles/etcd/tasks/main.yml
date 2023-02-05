@@ -1,61 +1,100 @@
----
-# tasks file for etcd
+- name: "Stop the etcd service"
+  command: systemctl stop etcd
 
-# - name: download etcd
-#   get_url:
-#     url: https://github.com/etcd-io/etcd/releases/download/v3.5.7/etcd-v3.5.7-linux-amd64.tar.gz
-#     dest: /tmp
+- name: "Create directory for etcd binaries"
+  file:
+    path: /opt/etcd/bin
+    state: directory
+    owner: root
+    group: root
+    mode: 0700
 
-# - name: untar etcd
-#   unarchive:
-#     src: /tmp/etcd-v3.5.7-linux-amd64.tar.gz
-#     dest: /tmp
-#     remote_src: true
+- name: "Download the tarball into the /tmp directory"
+  get_url:
+    url: https://storage.googleapis.com/etcd/v3.5.7/etcd-v3.5.7-linux-amd64.tar.gz
+    dest: /tmp/etcd.tar.gz
+    owner: root
+    group: root
+    mode: 0600
+    force: True
 
-- name: copy etcd binary to /usr/local/bin
-  copy:
-    src: "{{ item }}"
+- name: "Extract the contents of the tarball"
+  unarchive:
+    src: /tmp/etcd.tar.gz
+    dest: /opt/etcd/bin/
+    owner: root
+    group: root
+    mode: 0600
+    extra_opts:
+      - --strip-components=1
+    decrypt: True
+    remote_src: True
+
+- name: "Set permissions for etcd"
+  file:
+    path: /opt/etcd/bin/etcd
+    state: file
+    owner: root
+    group: root
+    mode: 0700
+
+- name: "Set permissions for etcdctl"
+  file:
+    path: /opt/etcd/bin/etcdctl
+    state: file
+    owner: root
+    group: root
+    mode: 0700
+
+- name: "Add /opt/etcd/bin/ to the $PATH environment variable"
+  lineinfile:
+    path: /etc/profile
+    line: export PATH="$PATH:/opt/etcd/bin"
+    state: present
+    create: True
+    insertafter: EOF
+
+- name: set PATH environment
+  command: export PATH="$PATH:/opt/etcd/bin"
+
+
+- name: "Set the ETCDCTL_API environment variable to 3"
+  lineinfile:
+    path: /etc/profile
+    line: export ETCDCTL_API=3
+    state: present
+    create: True
+    insertafter: EOF
+
+- name: "Create a data directory"
+  file:
+    path: /var/lib/etcd/{{ inventory_hostname }}.etcd
+    state: "{{ item }}"
+    owner: root
+    group: root
     mode: 0755
-    dest: /usr/local/bin/
-  with_fileglob:
-    - "/home/almalinux/ansible/roles/etcd/files/etcd*"
-
-- name: make dirs for etcd
+  with_items:
+    - absent
+    - directory
+    
+- name: "Create directory for etcd configuration"
   file:
     path: /etc/etcd
     state: directory
-    mode: 755
-  
-- name: create etcd group
-  group:
-    name: etcd
-    state: present
-    system: true
+    owner: root
+    group: root
+    mode: 0755
 
-- name: create etcd user
-  user:
-    name: etcd
-    state: present
-    system: true
-    shell: /sbin/nologin
-    home: /var/lib/etcd/{{ inventory_hostname }}.etcd
-
-- name: chown /var/lib/etcd
-  file:
-    path: /var/lib/etcd/{{ inventory_hostname }}.etcd
-    state: directory
-    owner: etcd
-    group: etcd
-    mode: 0775
-    recurse: true
-
-- name: copy etcd config
+- name: "Create configuration file for etcd"
   template:
-    src: etcd.conf.j2
+    src: templates/etcd.conf.yaml.j2
     dest: /etc/etcd/etcd.conf.yaml
+    owner: root
+    group: root
+    mode: 0600
 
-- name: copy service file
-  copy:
-    src: files/etcd.service
-    dest: /etc/systemd/system/etcd.service
-  notify: restart etcd
+- name: "Enable and restart the etcd service"
+  systemd:
+    name: etcd
+    state: restarted
+    enabled: true

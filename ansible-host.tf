@@ -6,6 +6,7 @@ resource "yandex_compute_instance" "ansible" {
   resources {
     cores  = 2
     memory = 2
+    core_fraction = 20
   }
 
   boot_disk {
@@ -72,8 +73,8 @@ resource "yandex_compute_instance" "ansible" {
   }
 
   depends_on = [
-    yandex_compute_instance.etcd,
+    # yandex_compute_instance.etcd,
     yandex_compute_instance.db,
-    yandex_compute_instance.haproxy,
+    # yandex_compute_instance.haproxy,
   ]
 }

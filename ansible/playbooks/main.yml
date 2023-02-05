@@ -4,15 +4,16 @@
   roles:
     - { role: general-el8, become: true }
 
-- hosts: haproxy_host
-  roles:
-    - { role: haproxy, become: true }
+# - hosts: haproxy_host
+#   roles:
+#     - { role: haproxy, become: true }
     
-- hosts: etcd_host
-  roles:
-    - { role: etcd, become: true }
+# - hosts: etcd_host
+#   roles:
+#     - { role: etcd, become: true }
 
 - hosts: db_hosts
   roles:
     - { role: postgresql, become: true }
-    - { role: patroni, become: true }
+    - { role: etcd, become: true}
+    - { role: patroni, become: true}

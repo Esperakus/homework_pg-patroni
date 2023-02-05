@@ -7,7 +7,7 @@ restapi:
     connect_address: "{{ hostvars[inventory_hostname]['ansible_facts']['eth0']['ipv4']['address'] }}:8008"
 
 etcd:
-    host: etcd:2379
+    host: db0:2379, db1:2379, db2:2379
 
 bootstrap:
   dcs:
@@ -26,9 +26,7 @@ bootstrap:
 
   pg_hba:
   - host replication replicator 127.0.0.1/32 md5
-  - host replication replicator {{ hostvars[inventory_hostname]['ansible_facts']['eth0']['ipv4']['address'] }}/0 md5
-  - host replication replicator {{ hostvars[inventory_hostname]['ansible_facts']['eth0']['ipv4']['address'] }}/0 md5
-  - host replication replicator {{ hostvars[inventory_hostname]['ansible_facts']['eth0']['ipv4']['address'] }}/0 md5
+  - host replication replicator samenet md5
   - host all all 0.0.0.0/0 md5
 
   users:
