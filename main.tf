@@ -41,13 +41,11 @@ resource "local_file" "hosts" {
   content = templatefile("hosts.tpl",
     {
       db_hosts = yandex_compute_instance.db.*.hostname
-      # etcd     = yandex_compute_instance.etcd.*.hostname
-      # haproxy  = yandex_compute_instance.haproxy.*.hostname
+      haproxy  = yandex_compute_instance.haproxy.*.hostname
 
   })
   depends_on = [
-    # yandex_compute_instance.etcd,
     yandex_compute_instance.db,
-    # yandex_compute_instance.haproxy
+    yandex_compute_instance.haproxy
   ]
 }

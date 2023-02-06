@@ -6,8 +6,8 @@ restapi:
     listen: "{{ hostvars[inventory_hostname]['ansible_facts']['eth0']['ipv4']['address'] }}:8008"
     connect_address: "{{ hostvars[inventory_hostname]['ansible_facts']['eth0']['ipv4']['address'] }}:8008"
 
-etcd:
-    host: db0:2379, db1:2379, db2:2379
+etcd3:
+    host: 127.0.0.1:2379
 
 bootstrap:
   dcs:

@@ -1,6 +1,3 @@
-- name: "Stop the etcd service"
-  command: systemctl stop etcd
-
 - name: "Create directory for etcd binaries"
   file:
     path: /opt/etcd/bin
@@ -48,15 +45,11 @@
 
 - name: "Add /opt/etcd/bin/ to the $PATH environment variable"
   lineinfile:
-    path: /etc/profile
+    path: /etc/profile.d/etcd.sh
     line: export PATH="$PATH:/opt/etcd/bin"
     state: present
     create: True
     insertafter: EOF
-
-- name: set PATH environment
-  command: export PATH="$PATH:/opt/etcd/bin"
-
 
 - name: "Set the ETCDCTL_API environment variable to 3"
   lineinfile:
@@ -93,8 +86,14 @@
     group: root
     mode: 0600
 
-- name: "Enable and restart the etcd service"
-  systemd:
-    name: etcd
-    state: restarted
-    enabled: true
+- name: copy service file
+  copy:
+    src: files/etcd.service
+    dest: /etc/systemd/system/etcd.service
+  notify: restart etcd
+
+# - name: "Enable and restart the etcd service"
+#   systemd:
+#     name: etcd
+#     state: restarted
+#     enabled: true
