@@ -29,25 +29,21 @@
 #   command:  /usr/pgsql-13/bin/postgresql-13-setup initdb
 #   when: not pgdata.stat.exists
 
-# - name: create link ln -s /usr/pgsql-13/bin/* /usr/sbin/
-#   # command: ln -s /usr/pgsql-13/bin/* /usr/sbin/
-#   file:
-#     src: "{{ item }}"
-#     dest: /usr/sbin
-#     state: link
-#   with_fileglob:
-#     - "/usr/pgsql-13/bin/*"
+- name: create link ln -s /usr/pgsql-13/bin/* /usr/sbin/
+  shell: |
+    # ls -lah /usr/pgsql-13/bin > /root/path.pg
+    ln -s /usr/pgsql-13/bin/* /usr/sbin/
     
-- name: add /usr/pgsql-13/bin to PATH
-  lineinfile:
-    path: /etc/profile.d/pgsql.sh
-    line: export PATH="$PATH:/usr/pgsql-13/bin"
-    state: present
-    create: True
-    insertafter: EOF
+# - name: add /usr/pgsql-13/bin to PATH
+#   lineinfile:
+#     path: /etc/profile.d/pgsql.sh
+#     line: export PATH="$PATH:/usr/pgsql-13/bin"
+#     state: present
+#     create: True
+#     insertafter: EOF
 
-- name: set path
-  shell: export PATH="$PATH:/usr/pgsql-13/bin"
+# - name: set path
+#   shell: export PATH="$PATH:/usr/pgsql-13/bin"
 
 # - name: copy config
 #   copy:

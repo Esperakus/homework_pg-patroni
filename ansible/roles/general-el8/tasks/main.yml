@@ -61,6 +61,7 @@
       - glibc-langpack-ru
       - python3-pip
       - gcc
+      - jq
       state: present
      
   - name: stop selinux
