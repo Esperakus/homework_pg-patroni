@@ -91,18 +91,3 @@
     src: files/etcd.service
     dest: /etc/systemd/system/etcd.service
   notify: restart etcd
-
-- name: set cluster state to existing
-  lineinfile:
-    path: /etc/etcd/etcd.conf.yaml
-    line: "initial-cluster-state: existing"
-    state: present
-    create: true
-    insertafter: EOF
-  notify: restart etcd
-  
-# - name: "Enable and restart the etcd service"
-#   systemd:
-#     name: etcd
-#     state: restarted
-#     enabled: true

@@ -7,17 +7,6 @@
       - patroni-etcd
     state: present
     update_cache: true
-
-    
-# - name: install patroni
-#   pip:
-#     name:
-#       - testresources
-#       - setuptools
-#       - patroni
-#       - psycopg2
-#       - python-etcd
-#     state: present
     
 - name: create patroni data folder
   file:
